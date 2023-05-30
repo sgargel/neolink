@@ -10,5 +10,5 @@ pool:
   vmImage: macOS-latest
 
 steps:
-- script: echo Hello, world!
-  displayName: 'Run a one-line script'
+- script: rustup target add arm-unknown-linux-gnueabihf
+  displayName: 'Add rustup target'
