@@ -13,5 +13,8 @@ steps:
 - script: rustup target add arm-unknown-linux-gnueabihf
   displayName: 'Add rustup target'
 
+- script: cargo install cross
+  displayName: 'cargo install cross'
+
 - script: cargo build --target arm-unknown-linux-gnueabihf
   displayName: 'cargo build'
