@@ -12,3 +12,6 @@ pool:
 steps:
 - script: rustup target add arm-unknown-linux-gnueabihf
   displayName: 'Add rustup target'
+
+- script: cargo build --target armv7-unknown-linux-gnueabihf
+  displayName: 'cargo build'
