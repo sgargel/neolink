@@ -10,14 +10,17 @@ pool:
   vmImage: macOS-latest
 
 steps:
-- script: brew install podman
-  displayName: 'install podman'
+#- script: brew install podman
+#  displayName: 'install podman'
 
 - script: rustup target add arm-unknown-linux-gnueabihf
   displayName: 'Add rustup target'
 
-- script: cargo install cross
-  displayName: 'cargo install cross'
+#- script: cargo install cross
+#  displayName: 'cargo install cross'
+
+- script: brew tap messense/macos-cross-toolchains && brew install arm-unknown-linux-gnueabihf
+  displayName: 'Add linker'
 
 - script: cross build --target arm-unknown-linux-gnueabihf
   displayName: 'cargo cross build'
