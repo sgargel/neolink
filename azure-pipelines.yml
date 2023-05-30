@@ -10,8 +10,8 @@ pool:
   vmImage: macOS-latest
 
 steps:
-- script: brew install docker
-  displayName: 'install docker'
+- script: brew install podman
+  displayName: 'install podman'
 
 - script: rustup target add arm-unknown-linux-gnueabihf
   displayName: 'Add rustup target'
