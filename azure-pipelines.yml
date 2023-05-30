@@ -22,7 +22,21 @@ steps:
 - script: brew tap messense/macos-cross-toolchains && brew install arm-unknown-linux-gnueabihf
   displayName: 'Add linker'
 
-- script: pkg-config --version
 
-- script: cargo build --target arm-unknown-linux-gnueabihf
+- script: |
+    curl -L 'https://gstreamer.freedesktop.org/data/pkg/osx/1.20.4/gstreamer-1.0-devel-1.20.4-universal.pkg' -o "$(pwd)/gstreamer-devel.pkg"
+    sudo installer -verbose -pkg "$(pwd)/gstreamer-devel.pkg" -target /
+    PKG_CONFIG_PATH="/Library/Frameworks/GStreamer.framework/Versions/1.0/lib/pkgconfig${PKG_CONFIG_PATH:+:$PKG_CONFIG_PATH}"
+    PKG_CONFIG_GSTREAMER_1_0_PREFIX="/Library/Frameworks/GStreamer.framework/Versions/1.0"
+    echo "PKG_CONFIG_PATH=${PKG_CONFIG_PATH}" >> "${GITHUB_ENV}"
+    echo "PKG_CONFIG_GSTREAMER_1_0_PREFIX=${PKG_CONFIG_GSTREAMER_1_0_PREFIX}" >> "${GITHUB_ENV}"
+    echo "PKG_CONFIG_PATH=${PKG_CONFIG_PATH}"
+    brew install pkg-config
+  displayName: 'Install Gstreamer on macOS'
+
+- script: |
+    echo "PATH=${PATH}"
+    echo "GSTREAMER_1_0_ROOT_MSVC_X86_64=${GSTREAMER_1_0_ROOT_MSVC_X86_64}"
+    echo "PKG_CONFIG_PATH=${PKG_CONFIG_PATH}"
+    cargo build --target arm-unknown-linux-gnueabihf
   displayName: 'cargo cross build'
