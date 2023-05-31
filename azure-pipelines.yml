@@ -28,9 +28,9 @@ steps:
     sudo installer -verbose -pkg "$(pwd)/gstreamer-devel.pkg" -target /
     PKG_CONFIG_PATH="/Library/Frameworks/GStreamer.framework/Versions/1.0/lib/pkgconfig${PKG_CONFIG_PATH:+:$PKG_CONFIG_PATH}"
     PKG_CONFIG_GSTREAMER_1_0_PREFIX="/Library/Frameworks/GStreamer.framework/Versions/1.0"
-    echo "PKG_CONFIG_PATH=${PKG_CONFIG_PATH}" >> "${GITHUB_ENV}"
-    echo "PKG_CONFIG_GSTREAMER_1_0_PREFIX=${PKG_CONFIG_GSTREAMER_1_0_PREFIX}" >> "${GITHUB_ENV}"
-    echo "PKG_CONFIG_PATH=${PKG_CONFIG_PATH}"
+    echo "##vso[task.setvariable variable=PKG_CONFIG_PATH]${PKG_CONFIG_PATH}"
+    echo "##vso[task.setvariable variable=PKG_CONFIG_GSTREAMER_1_0_PREFIX]${PKG_CONFIG_GSTREAMER_1_0_PREFIX}"
+    echo "##vso[task.setvariable variable=PKG_CONFIG_PATH]${PKG_CONFIG_PATH}"
     brew install pkg-config
   displayName: 'Install Gstreamer on macOS'
 
