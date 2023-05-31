@@ -10,18 +10,17 @@ pool:
   vmImage: macOS-latest
 
 steps:
-#- script: brew install podman
-#  displayName: 'install podman'
+- script: |
+    rustup toolchain uninstall stable || true
+    rustup toolchain install nightly
+    cargo install xargo
+    rustup override set nightly
+  displayName: 'install xargo'
 
-- script: rustup target add arm-unknown-linux-gnueabihf
-  displayName: 'Add rustup target'
-
-#- script: cargo install cross
-#  displayName: 'cargo install cross'
-
-- script: brew tap messense/macos-cross-toolchains && brew install arm-unknown-linux-gnueabihf
-  displayName: 'Add linker'
-
+- script: |
+    rustup target add arm-unknown-linux-gnueabihf
+    brew tap messense/macos-cross-toolchains && brew install arm-unknown-linux-gnueabihf
+  displayName: 'Add rustup target and linker'
 
 - script: |
     curl -L 'https://gstreamer.freedesktop.org/data/pkg/osx/1.20.4/gstreamer-1.0-devel-1.20.4-universal.pkg' -o "$(pwd)/gstreamer-devel.pkg"
@@ -38,5 +37,6 @@ steps:
     echo "PATH=${PATH}"
     echo "GSTREAMER_1_0_ROOT_MSVC_X86_64=${GSTREAMER_1_0_ROOT_MSVC_X86_64}"
     echo "PKG_CONFIG_PATH=${PKG_CONFIG_PATH}"
-    cargo build --target arm-unknown-linux-gnueabihf
+    rustup component add rust-src
+    xargo build -Z build-std --target arm-unknown-linux-gnueabihf
   displayName: 'cargo cross build'

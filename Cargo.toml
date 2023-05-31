@@ -38,4 +38,3 @@ toml = "0.7.3"
 validator = "0.16.0"
 validator_derive = "0.16.0"
 yaserde = "0.8.0"
-glib-sys = { version = "0.17.4", features = ["vendored"] }
