@@ -25,13 +25,18 @@ steps:
 - script: |
     curl -L 'https://gstreamer.freedesktop.org/data/pkg/osx/1.20.4/gstreamer-1.0-devel-1.20.4-universal.pkg' -o "$(pwd)/gstreamer-devel.pkg"
     sudo installer -verbose -pkg "$(pwd)/gstreamer-devel.pkg" -target /
-    PKG_CONFIG_PATH="/Library/Frameworks/GStreamer.framework/Versions/1.0/lib/pkgconfig${PKG_CONFIG_PATH:+:$PKG_CONFIG_PATH}"
+    PKG_CONFIG_PATH="/Library/Frameworks/GStreamer.framework/Versions/1.0/lib/pkgconfig:/usr/local/lib/pkgconfig:/usr/local/lib:${PKG_CONFIG_PATH:+:$PKG_CONFIG_PATH}"
     PKG_CONFIG_GSTREAMER_1_0_PREFIX="/Library/Frameworks/GStreamer.framework/Versions/1.0"
     echo "##vso[task.setvariable variable=PKG_CONFIG_PATH]${PKG_CONFIG_PATH}"
     echo "##vso[task.setvariable variable=PKG_CONFIG_GSTREAMER_1_0_PREFIX]${PKG_CONFIG_GSTREAMER_1_0_PREFIX}"
     echo "##vso[task.setvariable variable=PKG_CONFIG_PATH]${PKG_CONFIG_PATH}"
     brew install pkg-config
   displayName: 'Install Gstreamer on macOS'
+
+- script: |
+    pkg-config --libs --cflags gstreamer-base-sys || true
+    pkg-config --libs --cflags glib-sys || true
+  displayName: 'debug pkg-config'
 
 - script: |
     echo "PATH=${PATH}"
