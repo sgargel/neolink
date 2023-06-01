@@ -39,8 +39,8 @@ steps:
     echo "PKG_CONFIG_PATH=${PKG_CONFIG_PATH}"
     pkg-config --libs --cflags gstreamer-base-sys || true
     pkg-config --libs --cflags glib-sys || true
-    find / -name gstreamer-base-sys.pc 2> /dev/null
-    find / -name glib-sys.pc 2> /dev/null
+    find /Library -name gstreamer-base-sys.pc 2> /dev/null
+    find /Library -name glib-sys.pc 2> /dev/null
   displayName: 'debug pkg-config'
 
 - script: |
